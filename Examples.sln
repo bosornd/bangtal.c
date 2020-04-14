@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpotDifference", "SpotDiffe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SantaRace", "SantaRace\SantaRace.vcxproj", "{ADFEC01F-EA27-40B3-8401-570B7D05CE38}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SantaRace_Installer", "SantaRace_Installer\SantaRace_Installer.vdproj", "{EF3C6166-547D-4C16-92C5-67BFA360F8ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,10 @@ Global
 		{ADFEC01F-EA27-40B3-8401-570B7D05CE38}.Release|x64.Build.0 = Release|x64
 		{ADFEC01F-EA27-40B3-8401-570B7D05CE38}.Release|x86.ActiveCfg = Release|Win32
 		{ADFEC01F-EA27-40B3-8401-570B7D05CE38}.Release|x86.Build.0 = Release|Win32
+		{EF3C6166-547D-4C16-92C5-67BFA360F8ED}.Debug|x64.ActiveCfg = Debug
+		{EF3C6166-547D-4C16-92C5-67BFA360F8ED}.Debug|x86.ActiveCfg = Debug
+		{EF3C6166-547D-4C16-92C5-67BFA360F8ED}.Release|x64.ActiveCfg = Release
+		{EF3C6166-547D-4C16-92C5-67BFA360F8ED}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
