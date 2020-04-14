@@ -1,5 +1,4 @@
-﻿#include <Bangtal.h>
-#pragma comment(lib, "Bangtal.lib")
+﻿#include <bangtal.h>
 
 SceneID scene;
 
@@ -37,7 +36,7 @@ void endGame(bool success)
 
 	hideObject(playButton);
 
-	setObjectImage(startButton, "Images\\restart.png");
+	setObjectImage(startButton, "Images/restart.png");
 	showObject(startButton);
 	showObject(endButton);
 
@@ -73,9 +72,9 @@ void timerCallback(TimerID timer)
 	}
 }
 
-ObjectID createObject(const char* name, const char* image, SceneID scene, int x, int y, bool shown)
+ObjectID createObject(const char* image, SceneID scene, int x, int y, bool shown)
 {
-	ObjectID object = createObject(name, image);
+	ObjectID object = createObject(image);
 	locateObject(object, scene, x, y);
 
 	if (shown) {
@@ -90,13 +89,13 @@ int main()
 	setMouseCallback(mouseCallback);
 	setTimerCallback(timerCallback);
 
-	scene = createScene("Santa Race", "Images\\background.png");
+	scene = createScene("Santa Race", "Images/background.png");
 
-	startButton = createObject("start", "Images\\start.png", scene, 590, 70, true);
-	endButton = createObject("end", "Images\\end.png", scene, 590, 20, true);
+	startButton = createObject("Images/start.png", scene, 590, 70, true);
+	endButton = createObject("Images/end.png", scene, 590, 20, true);
 
-	santa = createObject("santa", "Images\\santa.png", scene, santaX, santaY, true);
-	playButton = createObject("play", "Images\\play.png", scene, 610, 30, false);
+	santa = createObject("Images/santa.png", scene, santaX, santaY, true);
+	playButton = createObject("Images/play.png", scene, 610, 30, false);
 
 	timer1 = createTimer(10.f);
 	showTimer(timer1);

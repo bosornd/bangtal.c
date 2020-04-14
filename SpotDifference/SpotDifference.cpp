@@ -1,5 +1,4 @@
-﻿#include <Bangtal.h>
-#pragma comment(lib, "Bangtal.lib")
+﻿#include <bangtal.h>
 
 SceneID scene1;
 ObjectID problem;
@@ -67,18 +66,18 @@ int main()
 {
 	setMouseCallback(mouseCallback);
 
-	scene1 = createScene("Spot Difference", "Images\\problem.png");
+	scene1 = createScene("Spot Difference");
 
-	problem = createObject("problem", "Images\\problem.png");
-	locateObject(problem, scene1, 0, 0);
+	problem = createObject("Images/problem.png");
+	locateObject(problem, scene1, 22, 52);
 	showObject(problem);
 
 	for (int i = 0; i < 7; i++) {
-		left[i] = createObject("problem", "Images\\check.png");
-		locateObject(left[i], scene1, leftX[i] - 25, Y[i] - 25);
+		left[i] = createObject("Images/check.png");
+		locateObject(left[i], scene1, leftX[i] - 3, Y[i] + 27);	  // -25 + 22, -25 + 52
 
-		right[i] = createObject("problem", "Images\\check.png");
-		locateObject(right[i], scene1, rightX[i] - 25, Y[i] - 25);
+		right[i] = createObject("Images/check.png");
+		locateObject(right[i], scene1, rightX[i] - 3, Y[i] + 27); // -25 + 22, -25 + 52
 	}
 
 	showMessage("좌우에 틀린 곳을 찾아보세요.");

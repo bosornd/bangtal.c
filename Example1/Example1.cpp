@@ -1,5 +1,4 @@
-﻿#include <Bangtal.h>
-#pragma comment(lib, "Bangtal.lib")
+﻿#include <bangtal.h>
 
 SceneID scene1, scene2;
 ObjectID door1, door2, door3;
@@ -57,7 +56,7 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action)
 		pickObject(key);
 	}
 	else if (object == keypad) {
-		showKeypad(KeypadType::KEYPAD_ALPHABET, "BANGTAL", door3);
+		showKeypad("BANGTAL", door3);
 	}
 	else if (object == button) {
 		power = !power;			// power를 toggle 한다.
@@ -79,55 +78,56 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action)
 	}
 }
 
-void keypadCallback(ObjectID object)
+void objectCallback(ObjectID object, EventID event)
 {
 	if (object == door3) {
-		locked3 = false;
-		showMessage("잠금 해제!!!");
+		if (event == EventID::EVENT_KEYPAD) {
+			locked3 = false;
+			showMessage("잠금 해제!!!");
+		}
 	}
 }
-
 
 int main()
 {
 	setMouseCallback(mouseCallback);
-	setKeypadCallback(keypadCallback);
+	setObjectCallback(objectCallback);
 
 	scene1 = createScene("룸1", "배경-1.png");
 
-	door1 = createObject("문1", "문-오른쪽-닫힘.png");
+	door1 = createObject("문-오른쪽-닫힘.png");
 	locateObject(door1, scene1, 800, 270);
 	showObject(door1);
 
 	scene2 = createScene("룸2", "배경-2.png");
 
-	door2 = createObject("문2", "문-왼쪽-닫힘.png");
+	door2 = createObject("문-왼쪽-닫힘.png");
 	locateObject(door2, scene2, 320, 270);
 	showObject(door2);
 
-	door3 = createObject("문3", "문-오른쪽-닫힘.png");
+	door3 = createObject("문-오른쪽-닫힘.png");
 	locateObject(door3, scene2, 900, 270);
 	showObject(door3);
 
-	key = createObject("열쇠", "열쇠.png");
+	key = createObject("열쇠.png");
 	locateObject(key, scene1, 600, 150);
 	scaleObject(key, 0.2f);
 	showObject(key);
 
-	flowerpot = createObject("화분", "화분.png");
+	flowerpot = createObject("화분.png");
 	locateObject(flowerpot, scene1, 550, 150);
 	showObject(flowerpot);
 
-	keypad = createObject("키패드", "키패드.png");
+	keypad = createObject("키패드.png");
 	locateObject(keypad, scene2, 885, 420);
 	showObject(keypad);
 
-	button = createObject("스위치", "스위치.png");
+	button = createObject("스위치.png");
 	locateObject(button, scene2, 880, 440);
 	showObject(button);
 
 	// 아직 암호는 보이진 않는다.
-	password = createObject("암호", "암호.png");
+	password = createObject("암호.png");
 	locateObject(password, scene2, 400, 100);
 
 	startGame(scene1);
