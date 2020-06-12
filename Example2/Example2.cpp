@@ -6,7 +6,7 @@ int x = 640, y = 360;
 
 int dx = 0, dy = 0;
 
-#define ANIMATION_TIME		0.05f
+#define ANIMATION_TIME		0.01f
 #define ANIMATION_STEP		5
 
 void keyboardCallback(KeyCode code, KeyState state)
@@ -36,6 +36,10 @@ void timerCallback(TimerID timer)
 
 int main()
 {
+	setGameOption(GameOption::GAME_OPTION_ROOM_TITLE, false);
+	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
+	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
+
 	setTimerCallback(timerCallback);
 	setKeyboardCallback(keyboardCallback);
 
