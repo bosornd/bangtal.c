@@ -172,6 +172,10 @@ void timerCallback(TimerID timer)
 
 int main()
 {
+	setGameOption(GameOption::GAME_OPTION_ROOM_TITLE, false);
+	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
+	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
+
 	setMouseCallback(mouseCallback);
 	setTimerCallback(timerCallback);
 

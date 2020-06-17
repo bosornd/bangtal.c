@@ -64,6 +64,10 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action)
 
 int main()
 {
+	setGameOption(GameOption::GAME_OPTION_ROOM_TITLE, false);
+	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
+	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
+
 	setMouseCallback(mouseCallback);
 
 	scene1 = createScene("Spot Difference");
