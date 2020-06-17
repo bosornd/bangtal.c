@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "겨울왕국2", "겨울왕�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2", "Example2\Example2.vcxproj", "{4F91C8C0-032D-4EDB-B144-8D47B255F85B}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "겨울왕국2_Installer", "겨울왕국2_Installer\겨울왕국2_Installer.vdproj", "{960DED1C-D302-4EE5-B59A-58B19016D3C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -67,6 +69,10 @@ Global
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x64.Build.0 = Release|x64
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x86.ActiveCfg = Release|Win32
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x86.Build.0 = Release|Win32
+		{960DED1C-D302-4EE5-B59A-58B19016D3C8}.Debug|x64.ActiveCfg = Debug
+		{960DED1C-D302-4EE5-B59A-58B19016D3C8}.Debug|x86.ActiveCfg = Debug
+		{960DED1C-D302-4EE5-B59A-58B19016D3C8}.Release|x64.ActiveCfg = Release
+		{960DED1C-D302-4EE5-B59A-58B19016D3C8}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
