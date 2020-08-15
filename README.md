@@ -16,7 +16,3 @@
 ## 틀린그림찾기
 ![SpotDifference](https://github.com/bosornd/bangtal/blob/master/SpotDifference/SpotDifference.PNG)
 좌/우 그림에서 틀린 위치를 찾는 게임입니다.
-
-## 겨울왕국2
-![겨울왕국2](https://github.com/bosornd/bangtal/blob/master/겨울왕국2/겨울왕국2.PNG)
-4x4 퍼즐을 맞추는 게임입니다.
