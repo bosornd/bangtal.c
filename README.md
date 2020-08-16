@@ -1,5 +1,5 @@
 # bangtal examples
-[bangtal library](https://cafe.naver.com/bangtal, "bangtal cafe")를 사용해서 게임을 만드는 예제 프로젝트입니다.
+[bangtal library](https://cafe.naver.com/bangtal "bangtal cafe")를 사용해서 게임을 만드는 예제 프로젝트입니다.
 
 ## Example1
 ![Example1](https://github.com/bosornd/bangtal/blob/master/Example1/Example1.PNG)
