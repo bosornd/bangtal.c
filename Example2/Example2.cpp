@@ -11,17 +11,17 @@ int dx = 0, dy = 0;
 
 void keyboardCallback(KeyCode code, KeyState state)
 {
-	if (code == 84) {			// UP
-		dy += (state == KeyState::KEYBOARD_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
+	if (code == KeyCode::KEY_UP_ARROW) {			// UP
+		dy += (state == KeyState::KEY_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
 	}
-	else if (code == 85) {		// DOWN
-		dy -= (state == KeyState::KEYBOARD_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
+	else if (code == KeyCode::KEY_DOWN_ARROW) {		// DOWN
+		dy -= (state == KeyState::KEY_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
 	}
-	else if (code == 83) {		// RIGHT
-		dx += (state == KeyState::KEYBOARD_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
+	else if (code == KeyCode::KEY_RIGHT_ARROW) {		// RIGHT
+		dx += (state == KeyState::KEY_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
 	}
-	else if (code == 82) {		// LEFT
-		dx -= (state == KeyState::KEYBOARD_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
+	else if (code == KeyCode::KEY_LEFT_ARROW) {		// LEFT
+		dx -= (state == KeyState::KEY_PRESSED ? ANIMATION_STEP : -ANIMATION_STEP);
 	}
 }
 
