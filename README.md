@@ -1,5 +1,5 @@
 # bangtal examples
-[bangtal library](https://bangtal.bosornd.com)를 사용해서 게임을 만드는 예제 프로젝트입니다.
+[bangtal library](https://bangtal.bosornd.com)를 사용해서 게임을 만드는 C언어 예제 프로젝트입니다.
 
 ## Example1
 ![Example1](https://github.com/bosornd/bangtal.c/blob/master/Example1/Example1.PNG)
