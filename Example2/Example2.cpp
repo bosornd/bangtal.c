@@ -51,5 +51,8 @@ int main()
 	TimerID timer = createTimer(ANIMATION_TIME);
 	startTimer(timer);
 
+	SoundID sound = createSound("Audios/background.mp3");
+	playSound(sound);
+
 	startGame(scene);
 }
