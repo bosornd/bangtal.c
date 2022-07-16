@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example1", "Example1\Example1.vcxproj", "{48E71C80-85A0-4A2F-BE06-75F4AD9A9469}"
 EndProject
@@ -12,6 +12,10 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SantaRace_Installer", "SantaRace_Installer\SantaRace_Installer.vdproj", "{EF3C6166-547D-4C16-92C5-67BFA360F8ED}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2", "Example2\Example2.vcxproj", "{4F91C8C0-032D-4EDB-B144-8D47B255F85B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "겨울왕국2", "겨울왕국2\겨울왕국2.vcxproj", "{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "지뢰찾기", "지뢰찾기\지뢰찾기.vcxproj", "{100CA645-39CA-4572-A13F-4D909F04BF95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,22 @@ Global
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x64.Build.0 = Release|x64
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x86.ActiveCfg = Release|Win32
 		{4F91C8C0-032D-4EDB-B144-8D47B255F85B}.Release|x86.Build.0 = Release|Win32
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Debug|x64.ActiveCfg = Debug|x64
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Debug|x64.Build.0 = Debug|x64
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Debug|x86.ActiveCfg = Debug|Win32
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Debug|x86.Build.0 = Debug|Win32
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Release|x64.ActiveCfg = Release|x64
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Release|x64.Build.0 = Release|x64
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Release|x86.ActiveCfg = Release|Win32
+		{3EE8D32A-D1FC-4CF6-B9A2-0266E956E73D}.Release|x86.Build.0 = Release|Win32
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Debug|x64.ActiveCfg = Debug|x64
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Debug|x64.Build.0 = Debug|x64
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Debug|x86.ActiveCfg = Debug|Win32
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Debug|x86.Build.0 = Debug|Win32
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Release|x64.ActiveCfg = Release|x64
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Release|x64.Build.0 = Release|x64
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Release|x86.ActiveCfg = Release|Win32
+		{100CA645-39CA-4572-A13F-4D909F04BF95}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
