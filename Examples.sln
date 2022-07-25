@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "탑쌓기", "탑쌓기\탑�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "테트리스", "테트리스\테트리스.vcxproj", "{2A86067E-1A90-4248-A9B1-DE541AFA399F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "블랙잭", "블랙잭\블랙잭.vcxproj", "{A323575F-158E-40ED-A826-8D9086059DDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -107,6 +109,14 @@ Global
 		{2A86067E-1A90-4248-A9B1-DE541AFA399F}.Release|x64.Build.0 = Release|x64
 		{2A86067E-1A90-4248-A9B1-DE541AFA399F}.Release|x86.ActiveCfg = Release|Win32
 		{2A86067E-1A90-4248-A9B1-DE541AFA399F}.Release|x86.Build.0 = Release|Win32
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Debug|x64.ActiveCfg = Debug|x64
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Debug|x64.Build.0 = Debug|x64
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Debug|x86.ActiveCfg = Debug|Win32
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Debug|x86.Build.0 = Debug|Win32
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Release|x64.ActiveCfg = Release|x64
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Release|x64.Build.0 = Release|x64
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Release|x86.ActiveCfg = Release|Win32
+		{A323575F-158E-40ED-A826-8D9086059DDA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
