@@ -140,7 +140,7 @@ void givePlayerCard(bool front = true) {
 
 	player_score = calcScore(player_card, player_card_num);
 	if (player_score > 21)
-		setGameEnd("Player Burst!!! Lost Game.");
+		setGameEnd("Player Burst!!! You lose.");
 }
 
 void giveDealerCard(bool front = true) {
@@ -154,7 +154,7 @@ void giveDealerCard(bool front = true) {
 
 	dealer_score = calcScore(dealer_card, dealer_card_num);
 	if (dealer_score > 21)
-		setGameEnd("Dealer Burst!!! Win Game.");
+		setGameEnd("Dealer Burst!!! You win.");
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
@@ -221,9 +221,9 @@ int main() {
 		dealer_card_object[i] = createObject("Images/back.png", scene, 250 + i * 50, 465, false);
 	}
 
-	hit_button = createObject("Images/hit.png", scene, 1100, 600, false);
-	stand_button = createObject("Images/stand.png", scene, 1100, 550, false);
-	start_button = createObject("Images/start.png", scene, 1100, 500, false);
+	hit_button = createObject("Images/hit.png", scene, 1050, 400, false);
+	stand_button = createObject("Images/stand.png", scene, 1050, 200, false);
+	start_button = createObject("Images/restart.png", scene, 0, 0, false);
 
 	timer = createTimer(animationTime);
 
