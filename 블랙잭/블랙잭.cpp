@@ -47,6 +47,9 @@ enum GameState {
 	GAME_END,
 } game_state;
 
+SoundID bgm, card_sound, win_sound, lose_sound;
+
+
 void shuffle() {
 	for (int i = 0; i < TOTAL_NUMBER_OF_CARD; ++i) deck[i] = INVALID_CARD;
 	for (int i = 0; i < TOTAL_NUMBER_OF_CARD; ++i) {
@@ -119,17 +122,20 @@ void setDealerTurn() {
 	game_state = DEALER_TURN;
 }
 
-void setGameEnd(const char* message) {
+void setGameEnd(bool playerWin, const char* message) {
 	hideObject(hit_button);
 	hideObject(stand_button);
 	showObject(start_button);
 
+	playSound(playerWin ? win_sound : lose_sound);
 	showMessage(message);
 
 	game_state = GAME_END;
 }
 
 void givePlayerCard(bool front = true) {
+	playSound(card_sound);
+
 	int card = deck[next_card];
 	++next_card;
 
@@ -140,10 +146,12 @@ void givePlayerCard(bool front = true) {
 
 	player_score = calcScore(player_card, player_card_num);
 	if (player_score > 21)
-		setGameEnd("Player Burst!!! You lose.");
+		setGameEnd(false, "Player Burst!!! You lose.");
 }
 
 void giveDealerCard(bool front = true) {
+	playSound(card_sound);
+
 	int card = deck[next_card];
 	++next_card;
 
@@ -154,7 +162,7 @@ void giveDealerCard(bool front = true) {
 
 	dealer_score = calcScore(dealer_card, dealer_card_num);
 	if (dealer_score > 21)
-		setGameEnd("Dealer Burst!!! You win.");
+		setGameEnd(true, "Dealer Burst!!! You win.");
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
@@ -185,7 +193,7 @@ void timerCallback(TimerID timer)
 	}
 	else if (game_state == DEALER_TURN) {
 		if (dealer_score > player_score) {
-			setGameEnd("Dealer Win!!!");
+			setGameEnd(false, "Dealer Win!!!");
 		}
 		else {
 			giveDealerCard();
@@ -221,9 +229,16 @@ int main() {
 		dealer_card_object[i] = createObject("Images/back.png", scene, 250 + i * 50, 465, false);
 	}
 
-	hit_button = createObject("Images/hit.png", scene, 1050, 400, false);
-	stand_button = createObject("Images/stand.png", scene, 1050, 200, false);
+	hit_button = createObject("Images/hit.png", scene,	1100, 250, false);
+	stand_button = createObject("Images/stand.png", scene, 1100, 100, false);
 	start_button = createObject("Images/restart.png", scene, 0, 0, false);
+
+	card_sound = createSound("Sounds/card.mp3");
+	win_sound = createSound("Sounds/win.mp3");
+	lose_sound = createSound("Sounds/lose.mp3");
+
+	bgm = createSound("Sounds/bgm.mp3");
+	playSound(bgm, true);
 
 	timer = createTimer(animationTime);
 
