@@ -23,6 +23,7 @@ bool stand = true;
 int jumpAnimator = 0;
 const int jumpAnimatorMax = 40;
 const int jumpY = 100;
+bool jump2 = false;
 
 const char* playerImage[playerAnimatorMax * 2] = {
 	"Images/char1.png",
@@ -42,13 +43,18 @@ ObjectID obstacle[obstacleMax];
 
 int obstacleX[obstacleMax];
 const int obstacleY = playerY;
+bool obstacleFly[obstacleMax];
 
-const int obstacleImageMax = 3;
+const int obstacleImageMax = 4;
 const char* obstacleImage[obstacleImageMax] = {
 	"Images/O1.png",
 	"Images/O2.png",
 	"Images/O3.png",
+	"Images/O4.png",
 };
+
+TimerID score;
+SoundID bgm, jumpSound, crawlSound, loseSound;
 
 int ABS(int x, int y) {
 	return (x > y) ? (x - y) : (y - x);
@@ -67,12 +73,18 @@ void initGame() {
 
 	for (int i = 0; i < obstacleMax; ++i) {
 		obstacleX[i] = newObstacleX();
-		locateObject(obstacle[i], scene, obstacleX[i], obstacleY);
-		setObjectImage(obstacle[i], obstacleImage[newObstacleImage()]);
+		int type = newObstacleImage();
+		obstacleFly[i] = (type == 3);
+		locateObject(obstacle[i], scene, obstacleX[i], obstacleY + (obstacleFly[i] ? 50 : 0));
+		setObjectImage(obstacle[i], obstacleImage[type]);
 	}
 
 	setTimer(timer, animationTime);
 	startTimer(timer);
+
+	setTimer(score, 0);
+
+	playSound(bgm, true);
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
@@ -84,10 +96,19 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 void keyboardCallback(KeyCode code, KeyState state) {
 	if (code == KeyCode::KEY_SPACE) {
-		if (state == KeyState::KEY_PRESSED)
+		if (state == KeyState::KEY_PRESSED) {
+			if (jumpAnimator > 0) jump2 = true;
+			else jump2 = false;
+
 			jumpAnimator = 1;
+
+			playSound(jumpSound);
+		}
 	}
 	else if (code == KeyCode::KEY_C) {
+		if (state == KeyState::KEY_PRESSED)
+			playSound(crawlSound);
+
 		stand = (state == KeyState::KEY_RELEASED);
 	}
 }
@@ -103,10 +124,14 @@ void timerCallback(TimerID timer) {
 		obstacleX[i] -= animationSpeed;
 
 		if (obstacleX[i] < -100) { // 사라짐
-			setObjectImage(obstacle[i], obstacleImage[newObstacleImage()]);
+			increaseTimer(score, 1);
+			int type = newObstacleImage();
+			obstacleFly[i] = (type == 3);
+			setObjectImage(obstacle[i], obstacleImage[type]);
+
 			obstacleX[i] = newObstacleX();
 		}
-		locateObject(obstacle[i], scene, obstacleX[i], obstacleY);
+		locateObject(obstacle[i], scene, obstacleX[i], obstacleY + (obstacleFly[i] ? 50 : 0));
 	}
 
 	// player animation
@@ -117,13 +142,16 @@ void timerCallback(TimerID timer) {
 	else playerAnimator = (playerAnimator + 1) % playerAnimatorMax;
 
 	setObjectImage(player, stand ? playerImage[playerAnimator] : playerImage[playerAnimatorMax + playerAnimator]);
-	locateObject(player, scene, playerX, playerY + (jumpAnimator > 0 ? jumpY : 0));
+	locateObject(player, scene, playerX, playerY + (jumpAnimator > 0 ? (jump2 ? 2 * jumpY : jumpY) : 0));
 
 	// check collision
 	for (int i = 0; i < obstacleMax; ++i) {
-		if (jumpAnimator == 0 && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 45) {
-			showMessage("Failed!!!");
+		if ((obstacleFly[i] && ((stand && jumpAnimator == 0) || (jumpAnimator > 0 && !jump2)) && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 95) ||
+			(!obstacleFly[i] && jumpAnimator == 0 && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 45)) {
+  			showMessage("Failed!!!");
 			showObject(restart);
+
+			playSound(loseSound);
 
 			return;
 		}
@@ -165,6 +193,14 @@ int main() {
 	restart = createObject("Images/restart.png", scene, 0, 0, false);
 
 	timer = createTimer(animationTime);
+
+	score = createTimer(0);
+	showTimer(score);
+
+	bgm = createSound("Sounds/bgm.mp3");
+	jumpSound = createSound("Sounds/jump.mp3");
+	crawlSound = createSound("Sounds/crawl.mp3");
+	loseSound = createSound("Sounds/lose.mp3");
 
 	initGame();
 	startGame(scene);
