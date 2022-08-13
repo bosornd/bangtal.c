@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "블랙잭", "블랙잭\블�
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "달리기", "달리기\달리기.vcxproj", "{48410350-5E7C-4884-A034-3617759E8CB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "탑쌓기2", "탑쌓기2\탑쌓기2.vcxproj", "{B54BBD00-B97A-46AF-9679-5F00058BCA6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -127,6 +129,14 @@ Global
 		{48410350-5E7C-4884-A034-3617759E8CB7}.Release|x64.Build.0 = Release|x64
 		{48410350-5E7C-4884-A034-3617759E8CB7}.Release|x86.ActiveCfg = Release|Win32
 		{48410350-5E7C-4884-A034-3617759E8CB7}.Release|x86.Build.0 = Release|Win32
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Debug|x64.ActiveCfg = Debug|x64
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Debug|x64.Build.0 = Debug|x64
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Debug|x86.ActiveCfg = Debug|Win32
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Debug|x86.Build.0 = Debug|Win32
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Release|x64.ActiveCfg = Release|x64
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Release|x64.Build.0 = Release|x64
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Release|x86.ActiveCfg = Release|Win32
+		{B54BBD00-B97A-46AF-9679-5F00058BCA6D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
