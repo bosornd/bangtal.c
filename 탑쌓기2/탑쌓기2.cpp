@@ -15,12 +15,13 @@ TimerID timer, newItemTimer;
 float animationTime = 0.005f;
 float newItemTime = 1.f;
 
-const int blockMax = 100;
+const int blockMax = 10;
 int blockX[blockMax];
 int blockNew = 0;
 
 const int showBlockMax = 4;
 ObjectID block[showBlockMax];
+ObjectID block2[blockMax];
 
 ObjectID gameover;
 ObjectID restart;
@@ -38,10 +39,22 @@ void showBlock() {
 }
 
 bool checkEnd() {
+	if (blockNew == blockMax) {
+		showMessage("탑 쌓기 성공~~~");
+		return true;
+	}
+
 	int center = blockX[blockNew - 1], blocks = 1;
 	for (int i = blockNew - 2; i >= 0; --i) {
 		const int x = blockX[i];
-		if (center < x - 100 || center > x + 100) return true;
+		if (center < x - 100 || center > x + 100) {
+			for (int i = 0; i < showBlockMax; ++i)
+				hideObject(block[i]);
+
+			showObject(gameover);
+
+			return true;
+		}
 		center = (x + center * blocks);
 		++ blocks;
 		center /= blocks;
@@ -55,13 +68,12 @@ void dropBlock() {
 	hideObject(holdBlock);
 
 	blockX[blockNew] = playerX + 100;
+	locateObject(block2[blockNew], scene, 1130 + (blockX[blockNew] - blockX[0]) / 5, 20 * blockNew + 5);
+	showObject(block2[blockNew]);
+
 	blockNew++;
 
 	if (checkEnd()) {
-		for (int i = 0; i < showBlockMax; ++i)
-			hideObject(block[i]);
-
-		showObject(gameover);
 		showObject(restart);
 	}
 	else {
@@ -77,6 +89,12 @@ void initGame() {
 	hideObject(restart);
 
 	blockNew = 0;
+
+	for (int i = 0; i < showBlockMax; ++i)
+		hideObject(block[i]);
+
+	for (int i = 0; i < blockMax; ++i)
+		hideObject(block2[i]);
 
 	setTimer(timer, animationTime);
 	startTimer(timer);
@@ -144,6 +162,10 @@ int main() {
 
 	for (int i = 0; i < showBlockMax; ++i) {
 		block[i] = createObject("Images/apt.png");
+	}
+
+	for (int i = 0; i < blockMax; ++i) {
+		block2[i] = createObject("Images/apt2.png");
 	}
 
 	gameover = createObject("Images/gameover.png", scene, 0, 0, false);
