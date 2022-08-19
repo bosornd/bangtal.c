@@ -1,6 +1,8 @@
 ﻿#include <bangtal.h>
 
 SceneID scene;
+ObjectID background;
+ObjectID background2;
 
 ObjectID player;
 const int playerX_Min = 350, playerX_Max = 700, playerX_Init = 550;
@@ -15,7 +17,7 @@ TimerID timer, newItemTimer;
 float animationTime = 0.005f;
 float newItemTime = 1.f;
 
-const int blockMax = 10;
+const int blockMax = 35;
 int blockX[blockMax];
 int blockNew = 0;
 
@@ -36,6 +38,8 @@ void showBlock() {
 		showObject(block[i]);
 	}
 	if (hold) hideObject(block[max]);
+
+	locateObject(background, scene, 0, -100 * start);
 }
 
 bool checkEnd() {
@@ -68,7 +72,7 @@ void dropBlock() {
 	hideObject(holdBlock);
 
 	blockX[blockNew] = playerX + 100;
-	locateObject(block2[blockNew], scene, 1130 + (blockX[blockNew] - blockX[0]) / 5, 20 * blockNew + 5);
+	locateObject(block2[blockNew], scene, 1035 + blockX[blockNew] / 5, 20 * blockNew + 5);
 	showObject(block2[blockNew]);
 
 	blockNew++;
@@ -77,7 +81,7 @@ void dropBlock() {
 		showObject(restart);
 	}
 	else {
-		showBlock();
+		showBlock();	
 
 		setTimer(newItemTimer, newItemTime);
 		startTimer(newItemTimer);
@@ -155,7 +159,9 @@ int main() {
 	setMouseCallback(mouseCallback);
 	setKeyboardCallback(keyboardCallback);
 
-	scene = createScene("탑쌓기", "Images/background.png");
+	scene = createScene("탑쌓기");
+	background = createObject("Images/background.png", scene, 0, 0);
+	background2 = createObject("Images/background2.png", scene, 0, 0);
 
 	holdBlock = createObject("Images/apt.png", scene, playerX, playerY - 90);
 	player = createObject("Images/player.png", scene, playerX, playerY);
