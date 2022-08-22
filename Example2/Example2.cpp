@@ -6,6 +6,8 @@ int x = 640, y = 360;
 
 int dx = 0, dy = 0;
 
+ObjectID board;
+
 #define ANIMATION_TIME		0.01f
 #define ANIMATION_STEP		5
 
@@ -48,7 +50,11 @@ int main()
 	locateObject(ball, scene, x, y);
 	showObject(ball);
 
-	TimerID timer = createTimer(ANIMATION_TIME);
+	board = createObject("Images/board.png", "한글 ABCD\n1234");
+	locateObject(board, scene, 1000, 600);
+	showObject(board);
+
+	TimerID timer = createTimer(ANIMATION_TIME);		
 	startTimer(timer);
 
 	SoundID sound = createSound("Audios/background.mp3");
