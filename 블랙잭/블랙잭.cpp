@@ -1,5 +1,8 @@
-﻿#include <bangtal.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
 
+#include <bangtal.h>
+
+#include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,6 +24,7 @@ ObjectID player_card_object[MAX_CARD], dealer_card_object[MAX_CARD];
 int player_card[MAX_CARD], dealer_card[MAX_CARD];
 int player_card_num, dealer_card_num;
 int player_score, dealer_score;
+ObjectID player_board, dealer_board;
 
 const char* card_image[TOTAL_NUMBER_OF_CARD] = {
 	"Images/S1.png", "Images/S2.png", "Images/S3.png", "Images/S4.png", "Images/S5.png",
@@ -49,6 +53,14 @@ enum GameState {
 
 SoundID bgm, card_sound, win_sound, lose_sound;
 
+void setScore(ObjectID board, int score) {
+	if (score > 0) {
+		char buf[4];
+		sprintf(buf, "%d", score);
+		setObjectText(board, buf);
+	}
+	else setObjectText(board);		// text = "", default
+}
 
 void shuffle() {
 	for (int i = 0; i < TOTAL_NUMBER_OF_CARD; ++i) deck[i] = INVALID_CARD;
@@ -78,6 +90,9 @@ void initGame() {
 	player_card_num = dealer_card_num = 0;
 	player_score = dealer_score = 0;
 
+	setScore(player_board, player_score);
+	setScore(dealer_board, dealer_score);
+
 	game_state = INIT;
 
 	setTimer(timer, animationTime);
@@ -101,7 +116,7 @@ int calcScore(int* cards, int num) {
 
 	return sum;
 }
-
+	
 void setPlayerTurn() {
 	showObject(hit_button);
 	showObject(stand_button);
@@ -112,6 +127,7 @@ void setPlayerTurn() {
 
 void setDealerTurn() {
 	setObjectImage(dealer_card_object[0], card_image[dealer_card[0]]);
+	setScore(dealer_board, dealer_score);
 
 	hideObject(hit_button);
 	hideObject(stand_button);
@@ -145,6 +161,8 @@ void givePlayerCard(bool front = true) {
 	++player_card_num;
 
 	player_score = calcScore(player_card, player_card_num);
+	setScore(player_board, player_score);
+
 	if (player_score > 21)
 		setGameEnd(false, "Player Burst!!! You lose.");
 }
@@ -161,6 +179,7 @@ void giveDealerCard(bool front = true) {
 	++dealer_card_num;
 
 	dealer_score = calcScore(dealer_card, dealer_card_num);
+
 	if (dealer_score > 21)
 		setGameEnd(true, "Dealer Burst!!! You win.");
 }
@@ -201,6 +220,7 @@ void timerCallback(TimerID timer)
 			setTimer(timer, animationTime);
 			startTimer(timer);
 		}
+		setScore(dealer_board, dealer_score);
 	}
 }
 
@@ -232,6 +252,9 @@ int main() {
 	hit_button = createObject("Images/hit.png", scene,	1100, 250, false);
 	stand_button = createObject("Images/stand.png", scene, 1100, 100, false);
 	start_button = createObject("Images/restart.png", scene, 0, 0, false);
+
+	player_board = createObject("Images/score.png", scene, 35, 100);
+	dealer_board = createObject("Images/score.png", scene, 35, 580);
 
 	card_sound = createSound("Sounds/card.mp3");
 	win_sound = createSound("Sounds/win.mp3");
