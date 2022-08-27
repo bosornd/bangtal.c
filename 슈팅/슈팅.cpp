@@ -175,15 +175,10 @@ void shootBullet() {
 }
 
 bool checkBullet(int b, int e) {
-//	return bulletX[b] > enemyX[e] && bulletX[b] < enemyX[e] + 50 && bulletY[b] > enemyY[e] && bulletY[b] < enemyY[e] + 50;
 	return (bulletX[b] - enemyX[e] - 20) * (bulletX[b] - enemyX[e] - 20) + (bulletY[b] - enemyY[e] - 20) * (bulletY[b] - enemyY[e] - 20) < 900;
 }
 
 void createEnemy() {
-//	int shooterX[4] = { 344, 344, 876, 876 };
-//	int shooterY[4] = { 576, 98, 576, 98 };
-
-//	static const int x[4] = { 240, 240, 990, 990 }, y[4] = { 30, 670, 30, 670 };
 	static const int x[4] = { 344, 344, 876, 876 }, y[4] = { 576, 98, 576, 98 };
 	static const Direction dir[4] = { DIRECTION_RIGHT_UP, DIRECTION_RIGHT_DOWN, DIRECTION_LEFT_UP, DIRECTION_LEFT_DOWN };
 	static const char* images[3] = { "Images/enemy0.png", "Images/enemy1.png", "Images/enemy2.png" };
