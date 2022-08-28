@@ -12,9 +12,15 @@ const int COLUMN = 20;
 const int ROW = 10;
 const int BOMBS = 25;
 
+enum State {
+	CLOSED = 0,
+	OPENED = 1,
+	FLAGED = 2,
+};
+
 int game[ROW][COLUMN];
 ObjectID board[ROW][COLUMN];
-bool opened[ROW][COLUMN];
+State state[ROW][COLUMN];
 
 const char* buttonImage[9] = {
 	"Images/0.png",
@@ -29,6 +35,8 @@ const char* buttonImage[9] = {
 };
 
 ObjectID start;
+
+bool clickMode = true;
 
 void initGame() {
 	for (int y = 0; y < ROW; ++y)
@@ -55,7 +63,7 @@ void initGame() {
 				game[y][x] = count;
 			}
 
-			opened[y][x] = false;
+			state[y][x] = CLOSED;
 			setObjectImage(board[y][x], "Images/button.png");
 		}
 }
@@ -70,18 +78,18 @@ bool checkEnd() {
 	int count = 0;
 	for (int y = 0; y < ROW; ++y)
 		for (int x = 0; x < COLUMN; ++x)
-			if (opened[y][x] == false) ++count;
+			if (state[y][x] != OPENED) ++count;
 
 	return count == BOMBS;
 }
 
 void openButton(int x, int y) {
-	if (opened[y][x] == false) {
+	if (state[y][x] == CLOSED) {
 		if (game[y][x] < 0) {
 			setObjectImage(board[y][x], "Images/bomb.png");		// bomb
 		}
 		else setObjectImage(board[y][x], buttonImage[game[y][x]]);
-		opened[y][x] = true;
+		state[y][x] = OPENED;
 
 		if (game[y][x] == 0) {
 			for (int j = y - 1; j <= y + 1; ++j)
@@ -93,20 +101,48 @@ void openButton(int x, int y) {
 	}
 }
 
+void flagButton(int x, int y) {
+	if (state[y][x] == CLOSED) {
+		state[y][x] = FLAGED;
+		setObjectImage(board[y][x], "Images/flag.png");
+	}
+	else if (state[y][x] == FLAGED) {
+		state[y][x] = CLOSED;
+		setObjectImage(board[y][x], "Images/button.png");
+	}
+}
+
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == start) {
 		initGame();
 	}
 	else {
 		buttonToXY(object, x, y);
-		openButton(x, y);
 
-		if (game[y][x] < 0) {
-			// open bomb
-			showMessage("game failed");
+		if (clickMode) {
+			openButton(x, y);
+
+			if (state[y][x] == OPENED && game[y][x] < 0) {
+				// open bomb
+				showMessage("game failed");
+			}
+			else if (checkEnd())
+				showMessage("game successful");
 		}
-		else if (checkEnd())
-			showMessage("game successful");
+		else {
+			flagButton(x, y);
+		}
+	}
+}
+
+void keyboardCallback(KeyCode code, KeyState state) {
+	if (code == KeyCode::KEY_LEFT_SHIFT || code == KeyCode::KEY_RIGHT_SHIFT) {
+		if (state == KeyState::KEY_PRESSED) {
+			clickMode = false;
+		}
+		else {
+			clickMode = true;
+		}
 	}
 }
 
@@ -126,6 +162,7 @@ int main() {
 	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
 
 	setMouseCallback(mouseCallback);
+	setKeyboardCallback(keyboardCallback);
 
 	scene = createScene("지뢰찾기");	
 
