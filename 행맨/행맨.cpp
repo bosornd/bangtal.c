@@ -85,6 +85,7 @@ void initGame() {
 
 	error = 0;
 	hideObject(hangman);
+	hideObject(restart);
 }
 
 
@@ -116,7 +117,8 @@ void keyboardCallback(KeyCode code, KeyState state)
 						setObjectImage(character[i], alphabet[word[i] - 'A']);
 					}
 
-					showMessage("FAILED!!!");
+					setObjectImage(restart, "Images/lose.png");
+					showObject(restart);
 				}
 			}
 			else {
@@ -127,7 +129,8 @@ void keyboardCallback(KeyCode code, KeyState state)
 				}
 
 				if (complete) {
-					showMessage("SUCCESSFUL!!!");
+					setObjectImage(restart, "Images/win.png");
+					showObject(restart);
 				}
 			}
 		}
@@ -164,7 +167,7 @@ int main() {
 		character[i] = createObject("Images/blank.png", scene, 300 + i * 75, 100);
 
 	hangman = createObject(hangmanImage[0], scene, 400, 150, false);
-	restart = createObject("Images/restart.png", scene, 1000, 300);
+	restart = createObject("Images/win.png", scene, 0, 0, false);
 
 	initGame();
 
