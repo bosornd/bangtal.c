@@ -83,22 +83,46 @@ bool checkEnd() {
 	return count == BOMBS;
 }
 
-void openButton(int x, int y) {
+bool openButton(int x, int y) {
 	if (state[y][x] == CLOSED) {
+		state[y][x] = OPENED;
+
 		if (game[y][x] < 0) {
 			setObjectImage(board[y][x], "Images/bomb.png");		// bomb
+			return false;
 		}
 		else setObjectImage(board[y][x], buttonImage[game[y][x]]);
-		state[y][x] = OPENED;
 
 		if (game[y][x] == 0) {
 			for (int j = y - 1; j <= y + 1; ++j)
 				for (int k = x - 1; k <= x + 1; ++k) {
 					if (j >= 0 && j < ROW && k >= 0 && k < COLUMN)
-						openButton(k, j);
+						if (state[j][k] == CLOSED) {
+							if (openButton(k, j) == false) return false;
+						}
 				}
 		}
 	}
+	else if (state[y][x] == OPENED) {
+		int flags = 0;
+		for (int j = y - 1; j <= y + 1; ++j)
+			for (int k = x - 1; k <= x + 1; ++k) {
+				if (j >= 0 && j < ROW && k >= 0 && k < COLUMN)
+					if (state[j][k] == FLAGED) ++flags;
+			}
+
+		if (flags == game[y][x]) {
+			for (int j = y - 1; j <= y + 1; ++j)
+				for (int k = x - 1; k <= x + 1; ++k) {
+					if (j >= 0 && j < ROW && k >= 0 && k < COLUMN)
+						if (state[j][k] == CLOSED) {
+							if (openButton(k, j) == false) return false;
+						}
+				}
+		}
+	}
+
+	return true;
 }
 
 void flagButton(int x, int y) {
@@ -120,10 +144,7 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 		buttonToXY(object, x, y);
 
 		if (clickMode) {
-			openButton(x, y);
-
-			if (state[y][x] == OPENED && game[y][x] < 0) {
-				// open bomb
+			if (openButton(x, y) == false) {
 				showMessage("game failed");
 			}
 			else if (checkEnd())
