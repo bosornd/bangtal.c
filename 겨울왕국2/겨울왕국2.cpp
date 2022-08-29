@@ -28,7 +28,9 @@ int board_y[16] = { 470, 470, 470, 470, 320, 320, 320, 320, 170, 170, 170, 170, 
 int blank;
 
 TimerID timer;
+float animationTime = 0.1f;
 int mixCount;
+int mixCountInit = 100;
 
 int board_index(ObjectID object) {
 	for (int i = 0; i < 16; i++) {
@@ -81,9 +83,11 @@ bool completed() {
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == start) {
-		mixCount = 10;
+		hideObject(start);
 
-		setTimer(timer, 1.f);
+		mixCount = mixCountInit;
+
+		setTimer(timer, animationTime);
 		startTimer(timer);
 	}
 	else {
@@ -91,8 +95,10 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 		if (movable(index)) {
 			board_move(index);
 
-			if (completed())
+			if (completed()) {
 				showMessage("Completed!!!");
+				showObject(start);
+			}
 		}
 	}
 }
@@ -102,12 +108,15 @@ void timerCallback(TimerID timer) {
 	if (mixCount > 0) {
 		board_mix();
 
-		setTimer(timer, 1.f);
+		setTimer(timer, animationTime);
 		startTimer(timer);
 	}
 }
 
 int main() {
+	setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
+	setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
+
 	setMouseCallback(mouseCallback);
 	setTimerCallback(timerCallback);
 
@@ -128,7 +137,7 @@ int main() {
 	locateObject(start, scene, 540, 100);
 	showObject(start);
 
-	timer = createTimer(1.f);
+	timer = createTimer(animationTime);
 
 	startGame(scene);
 
