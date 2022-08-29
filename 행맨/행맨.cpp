@@ -5,7 +5,7 @@
 #include <string.h>
 
 SceneID scene;
-ObjectID start;
+ObjectID restart;
 
 const int max_word = 10;
 ObjectID character[max_word];
@@ -76,6 +76,7 @@ void initGame() {
 	int len = strlen(word);
 
 	for (int i = 0; i < len; ++i) {
+		locateObject(character[i], scene, 600 - 75 * (len / 2 - i), 100);
 		setObjectImage(character[i], "Images/blank.png");
 		showObject(character[i]);
 		found[i] = false;
@@ -85,7 +86,6 @@ void initGame() {
 	error = 0;
 	hideObject(hangman);
 }
-
 
 
 void keyboardCallback(KeyCode code, KeyState state)
@@ -135,7 +135,7 @@ void keyboardCallback(KeyCode code, KeyState state)
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
-	if (object == start) {
+	if (object == restart) {
 		initGame();
 	}
 }
@@ -163,8 +163,8 @@ int main() {
 	for (int i = 0; i < max_word; ++i)
 		character[i] = createObject("Images/blank.png", scene, 300 + i * 75, 100);
 
-	hangman = createObject(hangmanImage[0], scene, 400, 200, false);
-	start = createObject("Images/start.png", scene, 1000, 300);
+	hangman = createObject(hangmanImage[0], scene, 400, 150, false);
+	restart = createObject("Images/restart.png", scene, 1000, 300);
 
 	initGame();
 
