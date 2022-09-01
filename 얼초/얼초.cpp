@@ -58,6 +58,7 @@ const char* cookie_images[3][3][3] = {
 int stage = 0;
 ObjectID next;
 ObjectID freeze1, freeze2;
+ObjectID ice1, ice2;
 bool freezed1, freezed2;
 
 ObjectID score_board;
@@ -233,6 +234,9 @@ void initStage2() {
 	hideObject(snack_button);
 	hideObject(snack);
 
+	setObjectImage(freeze1, "Images/freeze.png");
+	setObjectImage(freeze2, "Images/freeze.png");
+
 	showObject(freeze1);
 	showObject(freeze2);
 	freezed1 = freezed2 = false;
@@ -245,6 +249,8 @@ void initStage3() {
 
 	hideObject(freeze1);
 	hideObject(freeze2);
+	hideObject(ice1);
+	hideObject(ice2);
 }
 
 void initGame() {
@@ -261,14 +267,26 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 		initGame();
 	}
 	else if (object == freeze1) {
-		freezed1 = true;
+		if (freezed1 == false) {
+			freezed1 = true;
+
+			showObject(ice1);
+			setObjectImage(freeze1, "Images/freeze_pressed.png");
+		}
+
 		if (freezed2) {
 			setTimer(freezeTimer, freezeTime);
 			startTimer(freezeTimer);
 		}
 	}
 	else if (object == freeze2) {
-		freezed2 = true;
+		if (freezed2 == false) {
+			freezed2 = true;
+
+			showObject(ice2);
+			setObjectImage(freeze2, "Images/freeze_pressed.png");
+		}
+
 		if (freezed1) {
 			setTimer(freezeTimer, freezeTime);
 			startTimer(freezeTimer);
@@ -305,7 +323,8 @@ void timerCallback(TimerID timer) {
 		showObject(restart);
 	}
 	else if (timer == freezeTimer) {
-		initStage3();
+		if (freezed1 && freezed2)
+			initStage3();
 	}
 }
 
@@ -341,6 +360,8 @@ int main() {
 	next = createObject("Images/next.png", scene, 1170, 30);
 	freeze1 = createObject("Images/freeze.png", scene, 720, 436, false);
 	freeze2 = createObject("Images/freeze.png", scene, 784, 164, false);
+	ice1 = createObject("Images/ice1.png", scene, 75, 367, false);
+	ice2 = createObject("Images/ice2.png", scene, 105, 120, false);
 
 	score_board = createObject("Images/score.png", scene, 110, 625);
 
