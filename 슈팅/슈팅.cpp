@@ -1,4 +1,6 @@
-﻿#include <bangtal.h>
+﻿#define _CRT_SECURE_NO_WARNINGS
+
+#include <bangtal.h>
 
 #include <stdio.h>
 #include <time.h>
@@ -48,13 +50,54 @@ int enemySize = 50;
 int enemyCreationTime = 100;
 int enemyTimer = enemyCreationTime;
 
+ObjectID emotion;
+const char* emotion_images[3] = {
+	"Images/emotion.png",
+	"Images/emotion_hit.png",
+	"Images/emotion_die.png",
+};
+
+int score = 0;
+ObjectID score_display;
+
+const int MAX_HEART = 3;
+ObjectID heart[MAX_HEART];
+int heartNumber = MAX_HEART;
+
+TimerID emotionTimer;
+float emotionTime = 1.f;
+
 TimerID timer;
 float animationTime = 0.01f;
+
+void changeEmotion(int e = 0) {
+	setObjectImage(emotion, emotion_images[e]);
+
+	if (e > 0) {
+		setTimer(emotionTimer, emotionTime);
+		startTimer(emotionTimer);
+	}
+}
+
+void showScore(int score) {
+	char buf[4];
+	sprintf(buf, "%d", score);
+
+	setObjectText(score_display, buf);
+}
 
 void initGame() {
 	playerX = 600, playerY = 300;
 	locateObject(player, scene, playerX, playerY);
 	playerDirection = DIRECTION_NONE;
+
+	heartNumber = MAX_HEART;
+	for (int i = 0; i < heartNumber; ++i) {
+		showObject(heart[i]);
+	}
+
+	score = 0;
+	showScore(score);
 
 	for (int i = 0; i < MAX_BULLET; ++i) {
 		bulletShoot[i] = false;
@@ -223,6 +266,11 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 }
 
 void timerCallback(TimerID timer) {
+	if (timer == emotionTimer) {
+		changeEmotion();
+		return;
+	}
+
 	// player movement
 	move(playerX, playerY, playerDirection, playerSpeed, playerSize);
 	locateObject(player, scene, playerX, playerY);
@@ -242,8 +290,12 @@ void timerCallback(TimerID timer) {
 
 			for (int e = 0; e < MAX_ENERMY; ++e) {
 				if (enemyLive[e] && checkBullet(i, e)) {
+					showScore(++score);
+
 					enemyLive[e] = false;
 					hideObject(enemy[e]);
+
+					changeEmotion(1);
 
 					collision = true;
 					break;
@@ -263,7 +315,17 @@ void timerCallback(TimerID timer) {
 	bool end = false;
 	for (int i = 0; i < MAX_ENERMY; ++i) {
 		if (enemyLive[i] && checkEnemy(i)) {
-			end = true;
+			changeEmotion(2);
+
+			--heartNumber;
+			hideObject(heart[heartNumber]);
+
+			if (heartNumber == 0)
+				end = true;
+			else {
+				enemyLive[i] = false;
+				hideObject(enemy[i]);
+			}
 		}
 	}
 
@@ -302,6 +364,14 @@ int main() {
 	setMouseCallback(mouseCallback);
 
 	scene = createScene("슈팅", "Images/background.png");
+	emotion = createObject(emotion_images[emotion], scene, 23, 502);
+	emotionTimer = createTimer(emotionTime);
+
+	for (int i = 0; i < MAX_HEART; ++i) {
+		heart[i] = createObject("Images/heart.png", scene, 1112, 633 - 84 * i);
+	}
+
+	score_display = createObject("Images/score.png", scene, 143, 405);
 
 	for (int i = 0; i < MAX_BULLET; ++i) {
 		bulletShoot[i] = false;
