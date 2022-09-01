@@ -151,7 +151,14 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 				showMessage("game successful");
 		}
 		else {
-			flagButton(x, y);
+			if (state[y][x] == OPENED) {
+				if (openButton(x, y) == false) {
+					showMessage("game failed");
+				}
+				else if (checkEnd())
+					showMessage("game successful");
+			}
+			else flagButton(x, y);
 		}
 	}
 }
@@ -185,13 +192,13 @@ int main() {
 	setMouseCallback(mouseCallback);
 	setKeyboardCallback(keyboardCallback);
 
-	scene = createScene("지뢰찾기");	
+	scene = createScene("지뢰찾기", "Images/background.png");
 
 	for (int y = 0; y < ROW; ++y)
 		for (int x = 0; x < COLUMN; ++x)	
-			board[y][x] = createObject("Images/button.png", scene, x * BUTTON_WIDTH, y * BUTTON_HEIGHT);
+			board[y][x] = createObject("Images/button.png", scene, 5 + x * BUTTON_WIDTH, 5 + y * BUTTON_HEIGHT);
 
-	start = createObject("Images/start.png", scene, 1000, 300);
+	start = createObject("Images/restart.png", scene, 950, 250);
 
 	initGame();
 
