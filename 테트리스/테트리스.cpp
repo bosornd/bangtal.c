@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 SceneID scene;
-ObjectID start;
+ObjectID restart;
 
 const int sizeX = 10;
 const int sizeY = 20;
@@ -229,6 +229,8 @@ void redrawBoard() {
 }
 
 void initGame() {
+	hideObject(restart);
+
 	for (int y = 0; y < sizeY; ++y)
 		for (int x = 0; x < sizeX; ++x) {
 			board[y][x] = 0;
@@ -242,7 +244,7 @@ void initGame() {
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
-	if (object == start) {
+	if (object == restart) {
 		initGame();
 	}
 }
@@ -283,7 +285,7 @@ void timerCallback(TimerID timer)
 	if (piece == -1) {
 		createPiece();
 		if (possible(0, 0, 0) == false) {
-			showMessage("Game End!!!");
+			showObject(restart);
 			end = true;
 		}
 	}
@@ -313,12 +315,10 @@ int main() {
 	setMouseCallback(mouseCallback);
 	setKeyboardCallback(keyboardCallback);
 
-	scene = createScene("테트리스");
+	scene = createScene("테트리스", "Images/background.png");
 
-	const int positionX = 500;
-	const int positionY = 100;
-
-	createObject("Images/board.png", scene, positionX, positionY);
+	const int positionX = 502;
+	const int positionY = 102;
 
 	for (int y = 0; y < sizeY; ++y)
 		for (int x = 0; x < sizeX; ++x) {
@@ -328,7 +328,7 @@ int main() {
 	timer = createTimer(animationTime);
 	startTimer(timer);
 
-	start = createObject("Images/start.png", scene, 1000, 200);
+	restart = createObject("Images/restart.png", scene, 0, 0, false);
 
 	initGame();
 
