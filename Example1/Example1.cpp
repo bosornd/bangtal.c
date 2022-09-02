@@ -96,7 +96,7 @@ int main()
 	scene1 = createScene("룸1", "Images/배경-1.png");
 
 	door1 = createObject("Images/문-오른쪽-닫힘.png");
-	locateObject(door1, scene1, 749, 264);
+	locateObject(door1, scene1, 755, 257);
 	showObject(door1);
 
 	scene2 = createScene("룸2", "Images/배경-2.png");
