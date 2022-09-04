@@ -83,7 +83,7 @@ bool bombInstalled[bombMax];
 int bombExplosionTime[bombMax];
 int bombX[bombMax], bombY[bombMax];
 
-int stage = 0;
+int stage = 1;
 ObjectID stageLabel;
 
 int enemyCreationTimeMax = 50;
@@ -305,6 +305,18 @@ int waterKill(int x, int y) {
 	return killed;
 }
 
+void newStage() {
+	++stage;
+	setLabel(stageLabel, stage);
+
+	enemyTarget += stage * 10;
+	setLabel(enemyTargetLabel, enemyTarget);
+
+	enemyCreationTimeMax -= stage * 5;
+
+	changeEmotion(CLEAR);
+}
+
 void initGame() {
 	hideObject(restart);
 
@@ -336,10 +348,13 @@ void initGame() {
 		showObject(heart[h]);
 	}
 
+	stage = 1;
+	setLabel(stageLabel, stage);
+
 	enemyKilled = 0;
 	setLabel(enemyKilledLabel, enemyKilled);
 
-	enemyTarget = 20;
+	enemyTarget = 10 * stage;
 	setLabel(enemyTargetLabel, enemyTarget);
 
 	numberOfBallon = ballonMax;
@@ -348,8 +363,7 @@ void initGame() {
 	numberOfBomb = bombMax;
 	setLabel(bombLabel, numberOfBomb);
 
-	stage = 1;
-	setLabel(stageLabel, stage);
+	enemyCreationTimeMax = 50;
 
 	setTimer(timer, animationTime);
 	startTimer(timer);
@@ -387,6 +401,8 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 }
 
 void timerCallback(TimerID timer) {
+	int killed = 0;
+
 	for (int b = 0; b < bombMax; ++b) {
 		if (bombInstalled[b]) {
 			--bombExplosionTime[b];
@@ -410,7 +426,6 @@ void timerCallback(TimerID timer) {
 				hideObject(bombEffect[b]);
 				bombInstalled[b] = false;
 
-				int killed = 0;
 				for (int e = 0; e < enemyMax; ++e) {
 					if (enemyLive[e] && enemyX[e] > bombX[b] - 5 && enemyX[e] < bombX[b] + 5 && enemyY[e] > bombY[b] - 5 && enemyY[e] < bombY[b] + 5) {
 						enemyLive[e] = false;
@@ -418,12 +433,6 @@ void timerCallback(TimerID timer) {
 
 						++killed;
 					}
-				}
-				if (killed > 0) {
-					enemyKilled += killed;
-					setLabel(enemyKilledLabel, enemyKilled);
-
-					changeEmotion(KILL);
 				}
 			}
 		}
@@ -448,7 +457,6 @@ void timerCallback(TimerID timer) {
 					}
 				}
 
-				int killed = 0;
 				int step = 10 - ballonExplosionTime[b] / 2;
 				if (ballonX[b] - step < 0) hideObject(ballonEffect[b][0]);
 				else {
@@ -470,14 +478,18 @@ void timerCallback(TimerID timer) {
 					locateObject(ballonEffect[b][3], scene, 300 + ballonX[b] * 68, 635 - (ballonY[b] - step) * 69);
 					killed += waterKill(300 + ballonX[b] * 68, 635 - (ballonY[b] - step) * 69);
 				}
-				if (killed > 0) {
-					enemyKilled += killed;
-					setLabel(enemyKilledLabel, enemyKilled);
-
-					changeEmotion(KILL);
-				}
 			}
 		}
+	}
+
+	if (killed > 0) {
+		enemyKilled += killed;
+		setLabel(enemyKilledLabel, enemyKilled);
+
+		if (enemyKilled > enemyTarget) {
+			newStage();
+		}
+		else changeEmotion(KILL);
 	}
 
 	if (playerMoving) movePlayer();
