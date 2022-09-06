@@ -148,9 +148,9 @@ void timerCallback(TimerID timer) {
 	for (int i = 0; i < obstacleMax; ++i) {
 		if ((obstacleFly[i] && ((stand && jumpAnimator == 0) || (jumpAnimator > 0 && !jump2)) && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 95) ||
 			(!obstacleFly[i] && jumpAnimator == 0 && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 45)) {
-  			showMessage("Failed!!!");
 			showObject(restart);
 
+			stopSound(bgm);
 			playSound(loseSound);
 
 			return;
