@@ -92,6 +92,8 @@ int enemyCreationTime = enemyCreationTimeMax;
 TimerID timer;
 float animationTime = 0.05f;
 
+SoundID	bgm, ballonSound, ballonMoveSound, bombSound, bombExplosionSound, boxSound, hitSound, stageClearSound, gameOverSound;
+
 int getPlayerX() {
 	int x = 308 + playerX * 68;
 
@@ -256,6 +258,8 @@ void dropBomb(int x, int y) {
 
 		--numberOfBomb;
 		setLabel(bombLabel, numberOfBomb);
+
+		playSound(bombSound);
 	}
 }
 
@@ -285,6 +289,8 @@ void dropBallon(int x, int y) {
 
 		--numberOfBallon;
 		setLabel(ballonLabel, numberOfBallon);
+
+		playSound(ballonSound);
 	}
 }
 
@@ -315,9 +321,12 @@ void newStage() {
 	enemyCreationTimeMax -= stage * 5;
 
 	changeEmotion(CLEAR);
+	playSound(stageClearSound);
 }
 
 void initGame() {
+	playSound(bgm);
+
 	hideObject(restart);
 
 	playerX = 4, playerY = 4;
@@ -408,6 +417,8 @@ void timerCallback(TimerID timer) {
 			--bombExplosionTime[b];
 
 			if (bombExplosionTime[b] == 15) {
+				playSound(bombExplosionSound);
+
 				locateObject(bombEffect[b], scene, getBombX(b) - 373, getBombY(b) - 306);
 				setObjectImage(bombEffect[b], "Images/bomb_effect1.png");
 				showObject(bombEffect[b]);
@@ -449,6 +460,8 @@ void timerCallback(TimerID timer) {
 				ballonInstalled[b] = false;
 			}
 			else if (ballonExplosionTime[b] < 20) {
+				playSound(ballonMoveSound);
+
 				if (ballonExplosionTime[b] == 19) {
 					hideObject(ballon[b]);
 
@@ -556,6 +569,8 @@ void timerCallback(TimerID timer) {
 					enemyLive[e] = false;
 					hideObject(enemy[e]);
 					changeEmotion(HIT);
+
+					playSound(hitSound);
 				}
 			}
 		}
@@ -566,6 +581,9 @@ void timerCallback(TimerID timer) {
 		startTimer(timer);
 	}
 	else {
+		stopSound(bgm);
+		playSound(gameOverSound);
+
 		changeEmotion(END);
 		showObject(restart);
 	}
@@ -626,6 +644,16 @@ int main() {
 	restart = createObject("Images/restart.png", scene, 0, 0, false);
 
 	timer = createTimer(animationTime);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
+	ballonSound = createSound("Sounds/Ballon.mp3");
+	ballonMoveSound = createSound("Sounds/BallonMove.mp3");
+	bombSound = createSound("Sounds/Bomb.mp3");
+	bombExplosionSound = createSound("Sounds/BombExplosion.mp3");
+	boxSound = createSound("Sounds/Box.mp3");
+	hitSound = createSound("Sounds/Hit.mp3");
+	stageClearSound = createSound("Sounds/StageClear.mp3");
 
 	initGame();
 
