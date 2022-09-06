@@ -28,6 +28,8 @@ ObjectID block2[blockMax];
 ObjectID gameover;
 ObjectID restart;
 
+SoundID	bgm, blockSound, gameOverSound;
+
 void showBlock() {
 	int max = showBlockMax - (hold ? 1 : 0);
 	if (max > blockNew) max = blockNew;
@@ -78,10 +80,14 @@ void dropBlock() {
 	blockNew++;
 
 	if (checkEnd()) {
+		stopSound(bgm);
+		playSound(gameOverSound);
+
 		showObject(restart);
 	}
 	else {
 		showBlock();	
+		playSound(blockSound);
 
 		setTimer(newItemTimer, newItemTime);
 		startTimer(newItemTimer);
@@ -105,10 +111,14 @@ void initGame() {
 
 	setTimer(newItemTimer, newItemTime);
 	startTimer(newItemTimer);
+
+	playSound(bgm);
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
+		stopSound(bgm);
+
 		initGame();
 	}
 }
@@ -179,6 +189,10 @@ int main() {
 
 	timer = createTimer(animationTime);
 	newItemTimer = createTimer(newItemTime);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
+	blockSound = createSound("Sounds/Block.mp3");
 
 	initGame();
 
