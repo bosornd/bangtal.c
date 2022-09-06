@@ -71,6 +71,8 @@ const char* hangmanImage[] = {
 	"Images/9.png",
 };
 
+SoundID	bgm, rightSound, wrongSound, gameOverSound;
+
 void initGame() {
 	word = dictionary[rand() % sizeof_dictionary];
 	int len = strlen(word);
@@ -86,6 +88,8 @@ void initGame() {
 	error = 0;
 	hideObject(hangman);
 	hideObject(restart);
+
+	playSound(bgm);
 }
 
 
@@ -110,6 +114,8 @@ void keyboardCallback(KeyCode code, KeyState state)
 					showObject(hangman);
 					setObjectImage(hangman, hangmanImage[error]);
 					++error;
+
+					playSound(wrongSound);
 				}
 
 				if (error > 8) {
@@ -119,9 +125,12 @@ void keyboardCallback(KeyCode code, KeyState state)
 
 					setObjectImage(restart, "Images/lose.png");
 					showObject(restart);
+
+					playSound(gameOverSound);
 				}
 			}
 			else {
+				playSound(rightSound);
 
 				bool complete = true;
 				for (int i = 0; i < len; ++i) {
@@ -168,6 +177,11 @@ int main() {
 
 	hangman = createObject(hangmanImage[0], scene, 400, 150, false);
 	restart = createObject("Images/win.png", scene, 0, 0, false);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	rightSound = createSound("Sounds/Right.mp3");
+	wrongSound = createSound("Sounds/Wrong.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
 
 	initGame();
 
