@@ -28,7 +28,7 @@ enum Direction {
 ObjectID player;
 int playerX = 600, playerY = 300;
 Direction playerDirection = DIRECTION_NONE;
-int playerSpeed = 1;
+int playerSpeed = 3;
 int playerSize = 50;
 
 const int MAX_BULLET = 20;
