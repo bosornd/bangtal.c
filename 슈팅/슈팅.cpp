@@ -70,6 +70,8 @@ float emotionTime = 1.f;
 TimerID timer;
 float animationTime = 0.01f;
 
+SoundID	bgm, shootSound, hitSound, killSound, gameOverSound;
+
 void changeEmotion(int e = 0) {
 	setObjectImage(emotion, emotion_images[e]);
 
@@ -113,6 +115,8 @@ void initGame() {
 
 	setTimer(timer, animationTime);
 	startTimer(timer);
+
+	playSound(bgm);
 }
 
 void reflect(Direction& dir, bool x) {
@@ -214,6 +218,8 @@ void shootBullet() {
 
 		locateObject(bullet[i], scene, bulletX[i], bulletY[i]);
 		showObject(bullet[i]);
+
+		playSound(shootSound);
 	}
 }
 
@@ -260,6 +266,8 @@ void keyboardCallback(KeyCode code, KeyState state) {
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
+		stopSound(bgm);
+
 		hideObject(restart);
 		initGame();
 	}
@@ -298,6 +306,8 @@ void timerCallback(TimerID timer) {
 					changeEmotion(1);
 
 					collision = true;
+
+					playSound(killSound);
 					break;
 				}
 			}
@@ -326,11 +336,16 @@ void timerCallback(TimerID timer) {
 				enemyLive[i] = false;
 				hideObject(enemy[i]);
 			}
+
+			playSound(hitSound);
 		}
 	}
 
 	if (end) {
+		stopSound(bgm);
+
 		showObject(restart);
+		playSound(gameOverSound);
 	}
 	else {
 		--enemyTimer;
@@ -389,6 +404,12 @@ int main() {
 	}
 
 	restart = createObject("Images/restart.png", scene, 0, 0, false);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	shootSound = createSound("Sounds/Shoot.mp3");
+	killSound = createSound("Sounds/Kill.mp3");
+	hitSound = createSound("Sounds/Hit.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
 
 	timer = createTimer(animationTime);
 
