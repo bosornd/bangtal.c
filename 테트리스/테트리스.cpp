@@ -158,6 +158,8 @@ int piece;
 int piece_x, piece_y;
 int piece_r;		// 0, 1, 2, 3으로 4방향을 가리킨다.
 
+SoundID	bgm, blockSound, removedSound, gameOverSound;
+
 void removeLines() {
 	int removed = 0;
 	for (int y = sizeY - 1; y >= 0; --y) {
@@ -175,6 +177,8 @@ void removeLines() {
 	for (int y = 0; y < removed; ++y)
 		for (int x = 0; x < sizeX; ++x)
 			board[y][x] = 0;
+
+	if (removed) playSound(removedSound);
 }
 
 void createPiece() {
@@ -192,6 +196,7 @@ void putPiece() {
 		}
 
 	piece = -1;
+	playSound(blockSound);
 
 	removeLines();
 }
@@ -241,10 +246,14 @@ void initGame() {
 
 	setTimer(timer, animationTime);
 	startTimer(timer);
+
+	playSound(bgm);
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
+		stopSound(bgm);
+
 		initGame();
 	}
 }
@@ -260,11 +269,11 @@ void keyboardCallback(KeyCode code, KeyState state)
 			if (possible(1, 0, 0))
 				++piece_x;
 		}
-		else if (code == KeyCode::KEY_UP_ARROW) {
+		else if (code == KeyCode::KEY_DOWN_ARROW) {
 			if (possible(0, 0, 1))
 				piece_r = (piece_r + 1) % number_of_rotate;
 		}
-		else if (code == KeyCode::KEY_DOWN_ARROW) {
+		else if (code == KeyCode::KEY_SPACE) {
 			while (possible(0, 1, 0))
 				++piece_y;
 		}
@@ -302,6 +311,10 @@ void timerCallback(TimerID timer)
 		setTimer(timer, animationTime);
 		startTimer(timer);
 	}
+	else {
+		stopSound(bgm);
+		playSound(gameOverSound);
+	}
 }
 
 int main() {
@@ -329,6 +342,11 @@ int main() {
 	startTimer(timer);
 
 	restart = createObject("Images/restart.png", scene, 0, 0, false);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	blockSound = createSound("Sounds/Block.mp3");
+	removedSound = createSound("Sounds/Removed.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
 
 	initGame();
 
