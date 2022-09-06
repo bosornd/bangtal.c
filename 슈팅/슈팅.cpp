@@ -51,8 +51,9 @@ int enemyCreationTime = 100;
 int enemyTimer = enemyCreationTime;
 
 ObjectID emotion;
-const char* emotion_images[3] = {
+const char* emotion_images[4] = {
 	"Images/emotion.png",
+	"Images/emotion_kill.png",
 	"Images/emotion_hit.png",
 	"Images/emotion_die.png",
 };
@@ -342,6 +343,7 @@ void timerCallback(TimerID timer) {
 	}
 
 	if (end) {
+		changeEmotion(3);
 		stopSound(bgm);
 
 		showObject(restart);
