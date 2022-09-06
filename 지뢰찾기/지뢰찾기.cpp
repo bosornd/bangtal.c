@@ -38,6 +38,8 @@ ObjectID start;
 
 bool clickMode = true;
 
+SoundID bgm, gameOverSound, clickSound;
+
 void initGame() {
 	for (int y = 0; y < ROW; ++y)
 		for (int x = 0; x < COLUMN; ++x) game[y][x] = 0;
@@ -66,6 +68,8 @@ void initGame() {
 			state[y][x] = CLOSED;
 			setObjectImage(board[y][x], "Images/button.png");
 		}
+
+	playSound(bgm);
 }
 
 void buttonToXY(ObjectID button, int& x, int& y) {
@@ -138,27 +142,38 @@ void flagButton(int x, int y) {
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == start) {
+		stopSound(bgm);
 		initGame();
 	}
 	else {
+		playSound(clickSound);
+
 		buttonToXY(object, x, y);
 
+		int end = 0;
 		if (clickMode) {
 			if (openButton(x, y) == false) {
-				showMessage("game failed");
+				end = -1;
 			}
 			else if (checkEnd())
-				showMessage("game successful");
+				end = 1;
 		}
 		else {
 			if (state[y][x] == OPENED) {
 				if (openButton(x, y) == false) {
-					showMessage("game failed");
+					end = -1;
 				}
 				else if (checkEnd())
-					showMessage("game successful");
+					end = 1;
 			}
 			else flagButton(x, y);
+		}
+
+		if (end != 0) {
+			showMessage(end == 1 ? "game successful" : "game failed");
+
+			stopSound(bgm);
+			if (end == -1) playSound(gameOverSound);
 		}
 	}
 }
@@ -199,6 +214,10 @@ int main() {
 			board[y][x] = createObject("Images/button.png", scene, 5 + x * BUTTON_WIDTH, 5 + y * BUTTON_HEIGHT);
 
 	start = createObject("Images/restart.png", scene, 950, 250);
+
+	bgm = createSound("Sounds/BGM.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
+	clickSound = createSound("Sounds/Click.mp3");
 
 	initGame();
 
