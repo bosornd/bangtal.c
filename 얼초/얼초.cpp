@@ -401,7 +401,7 @@ int main() {
 	score_board = createObject("Images/score.png", scene, 110, 625);
 
 	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
-	game_over_score = createObject("Images/score.png", scene, 550, 300);
+	game_over_score = createObject("Images/score.png", scene, 580, 298);
 	restart = createObject("Images/restart.png", scene, 340, 160, false);
 
 	gameTimer = createTimer(gameTime);
