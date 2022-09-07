@@ -38,7 +38,7 @@ ObjectID start;
 
 bool clickMode = true;
 
-SoundID bgm, gameOverSound, clickSound;
+SoundID bgm, gameClearSound, gameOverSound, clickSound;
 
 void initGame() {
 	for (int y = 0; y < ROW; ++y)
@@ -170,10 +170,10 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 		}
 
 		if (end != 0) {
-			showMessage(end == 1 ? "game successful" : "game failed");
-
 			stopSound(bgm);
-			if (end == -1) playSound(gameOverSound);
+
+			showMessage(end == 1 ? "game successful" : "game failed");
+			playSound(end == -1 ? gameOverSound : gameClearSound);
 		}
 	}
 }
@@ -216,6 +216,7 @@ int main() {
 	start = createObject("Images/restart.png", scene, 950, 250);
 
 	bgm = createSound("Sounds/BGM.mp3");
+	gameClearSound = createSound("Sounds/GameClear.mp3");
 	gameOverSound = createSound("Sounds/GameOver.mp3");
 	clickSound = createSound("Sounds/Click.mp3");
 
