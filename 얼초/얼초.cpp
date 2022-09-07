@@ -70,6 +70,9 @@ float gameTime = 300.f;
 TimerID freezeTimer;
 float freezeTime = 1.f;
 
+SoundID	bgm, dishSound, snackSound, freezeSound, cookieSound, chocoSound, gameOverSound;
+
+
 ObjectID createObject(const char* image, SceneID scene, int x, int y, bool shown = true) {
 	ObjectID object = createObject(image);
 	locateObject(object, scene, x, y);
@@ -127,6 +130,8 @@ void putChoco(struct Base* base, int choco) {
 		base->choco[i] = choco;
 		setObjectImage(base->c[i], base_images[choco - 1][i]);
 		showObject(base->c[i]);
+
+		playSound(chocoSound);
 	}
 }
 
@@ -135,6 +140,8 @@ void putSnack(struct Base* base) {
 	if (base->choco[2] > 0) {
 		showObject(base->s);
 		base->made = true;
+
+		playSound(snackSound);
 
 		++made;
 		if (made == 16) {
@@ -153,11 +160,15 @@ void plateCookie(struct Base* base) {
 			hideObject(cookie[2]);
 			hideObject(cookie[3]);
 			cookie_plated = 0;
+
+			playSound(dishSound);
 		}
 
 		setObjectImage(cookie[cookie_plated], cookie_images[base->choco[0] - 1][base->choco[1] - 1][base->choco[2] - 1]);
 		showObject(cookie[cookie_plated]);
 		cookie_plated++;
+
+		playSound(cookieSound);
 
 		initBase(base);
 
@@ -254,6 +265,8 @@ void initStage3() {
 }
 
 void initGame() {
+	playSound(bgm);
+
 	setScore(0);
 	initStage1();
 
@@ -264,6 +277,8 @@ void initGame() {
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
 		hideObject(restart);
+		stopSound(bgm);
+
 		initGame();
 	}
 	else if (object == freeze1) {
@@ -272,6 +287,8 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 			showObject(ice1);
 			setObjectImage(freeze1, "Images/freeze_pressed.png");
+
+			playSound(freezeSound);
 		}
 
 		if (freezed2) {
@@ -285,6 +302,8 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 			showObject(ice2);
 			setObjectImage(freeze2, "Images/freeze_pressed.png");
+
+			playSound(freezeSound);
 		}
 
 		if (freezed1) {
@@ -297,7 +316,6 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	}
 	else if (object == choco_button[0] || object == choco_button[1] || object == choco_button[2] || object == snack_button) {
 		unselectButtons();
-
 
 		if (object == choco_button[0]) selectChoco(1);
 		else if (object == choco_button[1]) selectChoco(2);
@@ -370,7 +388,15 @@ int main() {
 	gameTimer = createTimer(gameTime);
 	showTimer(gameTimer);
 
-	freezeTimer = createTimer(freezeTime);;
+	freezeTimer = createTimer(freezeTime);
+
+	bgm = createSound("Sounds/bgm.mp3");
+	gameOverSound = createSound("Sounds/GameOver.mp3");
+	dishSound = createSound("Sounds/Dish.mp3");
+	snackSound = createSound("Sounds/Snack.mp3");
+	freezeSound = createSound("Sounds/Freeze.mp3");
+	cookieSound = createSound("Sounds/Cookie.mp3");
+	chocoSound = createSound("Sounds/Choco.mp3");
 
 	initGame();
 
