@@ -92,7 +92,7 @@ int enemyCreationTime = enemyCreationTimeMax;
 TimerID timer;
 float animationTime = 0.05f;
 
-SoundID	bgm, ballonSound, ballonMoveSound, bombSound, bombExplosionSound, boxSound, hitSound, stageClearSound, gameOverSound;
+SoundID	bgm, walkSound, ballonSound, ballonMoveSound, bombSound, bombExplosionSound, boxSound, hitSound, stageClearSound, gameOverSound;
 
 int getPlayerX() {
 	int x = 308 + playerX * 68;
@@ -387,7 +387,10 @@ void keyboardCallback(KeyCode code, KeyState state) {
 				case KeyCode::KEY_UP_ARROW: if (playerY > 0){ playerDirection = UP; playerMoving = true; } break;
 				case KeyCode::KEY_DOWN_ARROW: if (playerY < 9){ playerDirection = DOWN; playerMoving = true; } break;
 			}
-			playerMovingStep = 0;
+			if (playerMoving) {
+				playerMovingStep = 0;
+				playSound(walkSound);
+			}
 		}
 	}
 	else if (code == KeyCode::KEY_B) {
@@ -646,6 +649,7 @@ int main() {
 	timer = createTimer(animationTime);
 
 	bgm = createSound("Sounds/BGM.mp3");
+	walkSound = createSound("Sounds/Walk.mp3");
 	gameOverSound = createSound("Sounds/GameOver.mp3");
 	ballonSound = createSound("Sounds/Ballon.mp3");
 	ballonMoveSound = createSound("Sounds/BallonMove.mp3");
