@@ -9,7 +9,7 @@
 
 SceneID scene;
 ObjectID background;
-ObjectID restart;
+ObjectID game_over, game_over_score, restart;
 
 struct Base {
 	ObjectID b, c[3], s;
@@ -264,6 +264,23 @@ void initStage3() {
 	hideObject(ice2);
 }
 
+void hideGameEnd() {
+	hideObject(game_over);
+	hideObject(game_over_score);
+	hideObject(restart);
+}
+
+void showGameEnd() {
+	showObject(game_over);
+	showObject(game_over_score);
+
+	char buf[10];
+	sprintf(buf, "%d", score);
+	setObjectText(game_over_score, buf);
+
+	showObject(restart);
+}
+
 void initGame() {
 	playSound(bgm);
 
@@ -276,7 +293,7 @@ void initGame() {
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
-		hideObject(restart);
+		hideGameEnd();
 		stopSound(bgm);
 
 		initGame();
@@ -338,7 +355,7 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 
 void timerCallback(TimerID timer) {
 	if (timer == gameTimer) {
-		showObject(restart);
+		showGameEnd();
 	}
 	else if (timer == freezeTimer) {
 		if (freezed1 && freezed2)
@@ -383,7 +400,9 @@ int main() {
 
 	score_board = createObject("Images/score.png", scene, 110, 625);
 
-	restart = createObject("Images/restart.png", scene, 0, 0, false);
+	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
+	game_over_score = createObject("Images/score.png", scene, 550, 300);
+	restart = createObject("Images/restart.png", scene, 340, 160, false);
 
 	gameTimer = createTimer(gameTime);
 	showTimer(gameTimer);
