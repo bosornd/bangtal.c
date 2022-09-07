@@ -28,7 +28,7 @@ ObjectID block2[blockMax];
 ObjectID gameover;
 ObjectID restart;
 
-SoundID	bgm, blockSound, gameOverSound;
+SoundID	bgm, blockSound, gameClearSound, gameOverSound;
 
 void showBlock() {
 	int max = showBlockMax - (hold ? 1 : 0);
@@ -44,10 +44,10 @@ void showBlock() {
 	locateObject(background, scene, 0, -100 * start);
 }
 
-bool checkEnd() {
+int checkEnd() {
 	if (blockNew == blockMax) {
 		showMessage("탑 쌓기 성공~~~");
-		return true;
+		return 1;
 	}
 
 	int center = blockX[blockNew - 1], blocks = 1;
@@ -59,14 +59,14 @@ bool checkEnd() {
 
 			showObject(gameover);
 
-			return true;
+			return -1;
 		}
 		center = (x + center * blocks);
 		++ blocks;
 		center /= blocks;
 	}
 
-	return false;
+	return 0;
 }
 
 void dropBlock() {
@@ -79,9 +79,10 @@ void dropBlock() {
 
 	blockNew++;
 
-	if (checkEnd()) {
+	int end = checkEnd();
+	if (end) {
 		stopSound(bgm);
-		playSound(gameOverSound);
+		playSound(end == 1 ? gameClearSound : gameOverSound);
 
 		showObject(restart);
 	}
@@ -191,6 +192,7 @@ int main() {
 	newItemTimer = createTimer(newItemTime);
 
 	bgm = createSound("Sounds/BGM.mp3");
+	gameClearSound = createSound("Sounds/GameClear.mp3");
 	gameOverSound = createSound("Sounds/GameOver.mp3");
 	blockSound = createSound("Sounds/Block.mp3");
 
