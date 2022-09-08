@@ -65,7 +65,7 @@ ObjectID score_board;
 int score = 0;
 
 TimerID gameTimer;
-float gameTime = 30.f;
+float gameTime = 300.f;
 
 TimerID freezeTimer;
 float freezeTime = 1.f;
