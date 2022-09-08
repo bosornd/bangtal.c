@@ -25,7 +25,7 @@ const int showBlockMax = 4;
 ObjectID block[showBlockMax];
 ObjectID block2[blockMax];
 
-ObjectID gameover;
+ObjectID gameover, game_over, game_clear;
 ObjectID restart;
 
 SoundID	bgm, blockSound, gameClearSound, gameOverSound;
@@ -84,6 +84,7 @@ void dropBlock() {
 		stopSound(bgm);
 		playSound(end == 1 ? gameClearSound : gameOverSound);
 
+		showObject(end == 1 ? game_clear : game_over);
 		showObject(restart);
 	}
 	else {
@@ -97,6 +98,8 @@ void dropBlock() {
 
 void initGame() {
 	hideObject(gameover);
+	hideObject(game_over);
+	hideObject(game_clear);
 	hideObject(restart);
 
 	blockNew = 0;
@@ -178,15 +181,17 @@ int main() {
 	player = createObject("Images/player.png", scene, playerX, playerY);
 
 	for (int i = 0; i < showBlockMax; ++i) {
-		block[i] = createObject("Images/apt.png");
+		block[i] = createObject("Images/apt.png", scene, 0, 0, false);
 	}
 
 	for (int i = 0; i < blockMax; ++i) {
-		block2[i] = createObject("Images/apt2.png");
+		block2[i] = createObject("Images/apt2.png", 0, 0, false);
 	}
 
 	gameover = createObject("Images/gameover.png", scene, 0, 0, false);
-	restart = createObject("Images/restart.png", scene, 0, 0, false);
+	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
+	game_clear = createObject("Images/game_clear.png", scene, 0, 0, false);
+	restart = createObject("Images/restart.png", scene, 485, 242, false);
 
 	timer = createTimer(animationTime);
 	newItemTimer = createTimer(newItemTime);

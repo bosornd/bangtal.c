@@ -7,7 +7,8 @@
 #include <stdlib.h>
 
 SceneID scene;
-ObjectID restart;
+ObjectID stage_clear, game_over, next, quit, restart;
+bool game = false;
 
 enum Direction {
 	LEFT  = 0,
@@ -312,13 +313,42 @@ int waterKill(int x, int y) {
 }
 
 void newStage() {
+	hideObject(stage_clear);
+	hideObject(next);
+
 	++stage;
 	setLabel(stageLabel, stage);
 
-	enemyTarget += stage * 10;
+	enemyKilled = 0;
+	setLabel(enemyKilledLabel, enemyKilled);
+
+	enemyTarget = (9 + stage) * stage;
 	setLabel(enemyTargetLabel, enemyTarget);
 
-	enemyCreationTimeMax -= stage * 5;
+	numberOfBallon = stage * 2;
+	setLabel(ballonLabel, numberOfBallon);
+
+	numberOfBomb = stage;
+	setLabel(bombLabel, numberOfBomb);
+
+	enemyCreationTimeMax = 50 - stage * 5;
+
+	setTimer(timer, animationTime);
+	startTimer(timer);
+
+	game = true;
+}
+
+void clearStage() {
+	game = false;
+
+	for (int e = 0; e < enemyMax; ++e) {
+		hideObject(enemy[e]);
+		enemyLive[e] = false;
+	}
+
+	showObject(stage_clear);
+	showObject(next);
 
 	changeEmotion(CLEAR);
 	playSound(stageClearSound);
@@ -327,7 +357,9 @@ void newStage() {
 void initGame() {
 	playSound(bgm);
 
+	hideObject(game_over);
 	hideObject(restart);
+	hideObject(quit);
 
 	playerX = 4, playerY = 4;
 	playerMoving = false;
@@ -357,25 +389,8 @@ void initGame() {
 		showObject(heart[h]);
 	}
 
-	stage = 1;
-	setLabel(stageLabel, stage);
-
-	enemyKilled = 0;
-	setLabel(enemyKilledLabel, enemyKilled);
-
-	enemyTarget = 10 * stage;
-	setLabel(enemyTargetLabel, enemyTarget);
-
-	numberOfBallon = ballonMax;
-	setLabel(ballonLabel, numberOfBallon);
-
-	numberOfBomb = bombMax;
-	setLabel(bombLabel, numberOfBomb);
-
-	enemyCreationTimeMax = 50;
-
-	setTimer(timer, animationTime);
-	startTimer(timer);
+	stage = 0;
+	newStage();
 }
 
 void keyboardCallback(KeyCode code, KeyState state) {
@@ -407,8 +422,13 @@ void keyboardCallback(KeyCode code, KeyState state) {
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
-		hideObject(restart);
 		initGame();
+	}
+	else if (object == next) {
+		newStage();
+	}
+	else if (object == quit) {
+		endGame();
 	}
 }
 
@@ -502,8 +522,8 @@ void timerCallback(TimerID timer) {
 		enemyKilled += killed;
 		setLabel(enemyKilledLabel, enemyKilled);
 
-		if (enemyKilled > enemyTarget) {
-			newStage();
+		if (enemyKilled >= enemyTarget) {
+			clearStage();
 		}
 		else changeEmotion(KILL);
 	}
@@ -580,8 +600,10 @@ void timerCallback(TimerID timer) {
 	}
 
 	if (numberOfHeart > 0) {
-		setTimer(timer, animationTime);
-		startTimer(timer);
+		if (game) {
+			setTimer(timer, animationTime);
+			startTimer(timer);
+		}
 	}
 	else {
 		stopSound(bgm);
@@ -589,6 +611,8 @@ void timerCallback(TimerID timer) {
 
 		changeEmotion(END);
 		showObject(restart);
+		showObject(quit);
+		showObject(game_over);
 	}
 }
 
@@ -644,7 +668,11 @@ int main() {
 	bombLabel = createObject("Images/label.png", scene, 180, 135);
 	stageLabel = createObject("Images/label.png", scene, 1170, 470);
 
-	restart = createObject("Images/restart.png", scene, 0, 0, false);
+	stage_clear = createObject("Images/stage_clear.png", scene, 0, 0, false);
+	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
+	next = createObject("Images/next.png", scene, 524, 250, false);
+	quit = createObject("Images/exit.png", scene, 702, 250, false);
+	restart = createObject("Images/restart.png", scene, 335, 250, false);
 
 	timer = createTimer(animationTime);
 

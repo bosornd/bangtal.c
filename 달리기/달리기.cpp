@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 SceneID scene;
-ObjectID restart;
+ObjectID game_over, restart;
 
 ObjectID background;
 int backgroundX = 0;
@@ -90,6 +90,7 @@ void initGame() {
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 	if (object == restart) {
 		hideObject(restart);
+		hideObject(game_over);
 		initGame();
 	}
 }
@@ -148,6 +149,7 @@ void timerCallback(TimerID timer) {
 	for (int i = 0; i < obstacleMax; ++i) {
 		if ((obstacleFly[i] && ((stand && jumpAnimator == 0) || (jumpAnimator > 0 && !jump2)) && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 95) ||
 			(!obstacleFly[i] && jumpAnimator == 0 && playerX + 65 > obstacleX[i] && playerX < obstacleX[i] + 45)) {
+			showObject(game_over);
 			showObject(restart);
 
 			stopSound(bgm);
@@ -190,7 +192,8 @@ int main() {
 
 	player = createObject(playerImage[0], scene, playerX, playerY);
 
-	restart = createObject("Images/restart.png", scene, 0, 0, false);
+	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
+	restart = createObject("Images/restart.png", scene, 485, 242, false);
 
 	timer = createTimer(animationTime);
 

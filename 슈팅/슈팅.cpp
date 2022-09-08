@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 SceneID scene;
-ObjectID restart;
+ObjectID game_over, restart;
 
 int shooterX[4] = { 344, 344, 876, 876 };
 int shooterY[4] = { 576, 98, 576, 98 };
@@ -270,6 +270,8 @@ void mouseCallback(ObjectID object, int x, int y, MouseAction action) {
 		stopSound(bgm);
 
 		hideObject(restart);
+		hideObject(game_over);
+
 		initGame();
 	}
 }
@@ -347,6 +349,8 @@ void timerCallback(TimerID timer) {
 		stopSound(bgm);
 
 		showObject(restart);
+		showObject(game_over);
+
 		playSound(gameOverSound);
 	}
 	else {
@@ -405,7 +409,8 @@ int main() {
 		enemy[i] = createObject("Images/enemy0.png", scene, 0, 0, enemyLive[i]);
 	}
 
-	restart = createObject("Images/restart.png", scene, 0, 0, false);
+	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
+	restart = createObject("Images/restart.png", scene, 515, 252, false);
 
 	bgm = createSound("Sounds/BGM.mp3");
 	shootSound = createSound("Sounds/Shoot.mp3");
