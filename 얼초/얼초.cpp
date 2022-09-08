@@ -65,7 +65,7 @@ ObjectID score_board;
 int score = 0;
 
 TimerID gameTimer;
-float gameTime = 300.f;
+float gameTime = 30.f;
 
 TimerID freezeTimer;
 float freezeTime = 1.f;
@@ -402,7 +402,7 @@ int main() {
 
 	game_over = createObject("Images/game_over.png", scene, 0, 0, false);
 	game_over_score = createObject("Images/score.png", scene, 570, 297);
-	restart = createObject("Images/restart.png", scene, 340, 160, false);
+	restart = createObject("Images/restart.png", scene, 522, 182, false);
 
 	gameTimer = createTimer(gameTime);
 	showTimer(gameTimer);
