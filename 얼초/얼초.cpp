@@ -282,7 +282,7 @@ void showGameEnd() {
 }
 
 void initGame() {
-	playSound(bgm);
+	playSound(bgm, true);
 
 	setScore(0);
 	initStage1();

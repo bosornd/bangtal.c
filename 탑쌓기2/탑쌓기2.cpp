@@ -116,7 +116,7 @@ void initGame() {
 	setTimer(newItemTimer, newItemTime);
 	startTimer(newItemTimer);
 
-	playSound(bgm);
+	playSound(bgm, true);
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {

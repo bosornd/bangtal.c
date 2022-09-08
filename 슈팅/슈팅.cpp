@@ -117,7 +117,7 @@ void initGame() {
 	setTimer(timer, animationTime);
 	startTimer(timer);
 
-	playSound(bgm);
+	playSound(bgm, true);
 }
 
 void reflect(Direction& dir, bool x) {

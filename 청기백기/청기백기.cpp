@@ -366,7 +366,7 @@ int main() {
 	orderSound = createSound("Sounds/order.mp3");
 	clickSound = createSound("Sounds/click.mp3");
 
-	playSound(bgm);
+	playSound(bgm, true);
 
 	startGame(sceneMain);
 

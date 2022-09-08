@@ -247,7 +247,7 @@ void initGame() {
 	setTimer(timer, animationTime);
 	startTimer(timer);
 
-	playSound(bgm);
+	playSound(bgm, true);
 }
 
 void mouseCallback(ObjectID object, int x, int y, MouseAction action) {

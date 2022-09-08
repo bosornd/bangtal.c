@@ -69,7 +69,7 @@ void initGame() {
 			setObjectImage(board[y][x], "Images/button.png");
 		}
 
-	playSound(bgm);
+	playSound(bgm, true);
 }
 
 void buttonToXY(ObjectID button, int& x, int& y) {

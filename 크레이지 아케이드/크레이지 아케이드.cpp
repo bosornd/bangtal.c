@@ -355,7 +355,7 @@ void clearStage() {
 }
 
 void initGame() {
-	playSound(bgm);
+	playSound(bgm, true);
 
 	hideObject(game_over);
 	hideObject(restart);

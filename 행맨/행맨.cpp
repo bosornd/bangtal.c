@@ -89,7 +89,7 @@ void initGame() {
 	hideObject(hangman);
 	hideObject(restart);
 
-	playSound(bgm);
+	playSound(bgm, true);
 }
 
 
