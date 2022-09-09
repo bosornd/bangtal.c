@@ -333,6 +333,11 @@ void newStage() {
 
 	enemyCreationTimeMax = 50 - stage * 5;
 
+	numberOfHeart = 3;
+	for (int h = 0; h < numberOfHeart; ++h) {
+		showObject(heart[h]);
+	}
+
 	setTimer(timer, animationTime);
 	startTimer(timer);
 
